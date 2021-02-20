@@ -1,7 +1,7 @@
 const express = require('express')
 const ejs = require('ejs')
 const path = require('path')
-const pdf = require('html-pdf')
+const puppeteer = require('puppeteer')
 
 const app = express()
 
@@ -27,32 +27,42 @@ app.get('/', (request, response) => {
 
   const filePath = path.join(__dirname, 'print.ejs')
 
-  ejs.renderFile(filePath, { passengers }, (err, data) => {
+  ejs.renderFile(filePath, { passengers }, (err, html) => {
     if(err) {
       return response.send('File path error')
     }
-
-    const A4PaperDefinitions = {
-      height: '11.25in',
-      width: '8.5in',
-      header: {
-        height: '20mm'
-      },
-      footer: {
-        height: '20mm'
-      }
-    }
-
-    pdf.create(data, A4PaperDefinitions).toFile('report.pdf', (err, data) => {
-      if(err) {
-        return response.send('Failed to generate PDF')
-      }
       
-      return response.send('Successfully generated PDF')
-
-    })
+    return response.send(html)
 
   })
+
+})
+
+app.get('/pdf', async(request, response) => {
+
+  const browser = await puppeteer.launch()
+  const page = await browser.newPage()
+
+  await page.goto('https://google.com', {
+    waitUntil: 'networkidle0'
+  })
+
+  const pdf = await page.pdf({
+    printBackground: true,
+    format: 'Letter',
+    padding: {
+      top: '20px',
+      bottom: '40px',
+      left: '20px',
+      right: '20px'
+    }
+  })
+
+  await browser.close()
+
+  response.contentType("application/pdf")
+
+  return response.send(pdf)
 
 })
 
