@@ -30,9 +30,7 @@ module.exports = {
           waitUntil: 'networkidle0'
         })
       
-        const ImageBase64 = await page.screenshot({
-          path: 'src/screenshots/screenshot.png'
-        })
+        const ImageBase64 = await page.screenshot()
       
         await browser.close()
 
