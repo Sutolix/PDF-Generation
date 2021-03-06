@@ -1,4 +1,3 @@
-const path = require('path')
 const puppeteer = require('puppeteer')
 
 module.exports = {
@@ -32,7 +31,7 @@ module.exports = {
           waitUntil: 'networkidle0'
         })
       
-        const img = await page.screenshot({
+        const ImageBase64 = await page.screenshot({
           path: imagePath
         })
       
@@ -40,7 +39,7 @@ module.exports = {
 
         return response.status(200).json({
           message: 'Screenshot successfully generated!',
-          urlToDownload: imagePath
+          ImageBase64
         })
 
       } catch (error) {
