@@ -4,7 +4,6 @@ module.exports = {
     async print(request, response) {
 
       try {
-        const imagePath = `${process.cwd()}/src/screenshots/screenshot.png`
       
         const browser = await puppeteer.launch({
           args: [
@@ -32,7 +31,7 @@ module.exports = {
         })
       
         const ImageBase64 = await page.screenshot({
-          path: imagePath
+          path: 'src/screenshots/screenshot.png'
         })
       
         await browser.close()
