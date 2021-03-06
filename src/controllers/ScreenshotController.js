@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer')
 module.exports = {
     async print(request, response) {
 
-        const imagePath = `${process.cwd()}/src/screenshots/screenshot.png`
+        const imagePath = `screenshot.png`
       
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
