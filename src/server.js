@@ -43,8 +43,25 @@ app.get('/pdf', async(request, response) => {
   const browser = await puppeteer.launch()
   const page = await browser.newPage()
 
-  await page.goto('https://google.com', {
+  await page.emulate({
+    userAgent:
+      'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36',
+    viewport: {
+      width: 1920,
+      height: 1080,
+      deviceScaleFactor: 1,
+      isMobile: false,
+      hasTouch: false,
+      isLandscape: false,
+    },
+  })
+
+  await page.goto('https://vocadb.net/', {
     waitUntil: 'networkidle0'
+  })
+
+  const img = await page.screenshot({
+    path: 'testemulate.png'
   })
 
   const pdf = await page.pdf({
