@@ -3,6 +3,8 @@ const puppeteer = require('puppeteer')
 module.exports = {
     async print(request, response) {
 
+      const { url } = request.body
+
       try {
       
         const browser = await puppeteer.launch({
@@ -26,11 +28,13 @@ module.exports = {
           },
         })
   
-        await page.goto('https://google.com', {
+        await page.goto(url, {
           waitUntil: 'networkidle0'
         })
       
-        const ImageBase64 = await page.screenshot()
+        const ImageBase64 = await page.screenshot({
+          encoding: 'base64'
+        })
       
         await browser.close()
 

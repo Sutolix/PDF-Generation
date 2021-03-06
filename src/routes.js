@@ -4,6 +4,6 @@ const ScreenshotController = require('./controllers/ScreenshotController');
 
 const routes = express.Router();
 
-routes.get('/print', ScreenshotController.print);
+routes.post('/print', ScreenshotController.print);
 
 module.exports = routes;
