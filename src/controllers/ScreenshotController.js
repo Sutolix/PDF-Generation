@@ -4,7 +4,8 @@ const puppeteer = require('puppeteer')
 module.exports = {
     async print(request, response) {
 
-        const imagePath = `screenshot.png`
+      try {
+        const imagePath = `${process.cwd()}/src/screenshots/screenshot.png`
       
         const browser = await puppeteer.launch({
           args: [
@@ -42,9 +43,12 @@ module.exports = {
           urlToDownload: imagePath
         })
 
-
+      } catch (error) {
+        return response.status(400).json({
+          message: 'Failed to generate screenshot!',
+          error: error
+        })
+      }
 
     }
 };
-
-
